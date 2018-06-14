@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
 
+require './lib/true_crime'
 
-TrueCrime::TrueCrimeController.new.run
+TrueCrime::TrueCrimeController.new.call
