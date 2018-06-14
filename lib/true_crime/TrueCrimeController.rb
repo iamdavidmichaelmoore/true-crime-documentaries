@@ -9,11 +9,24 @@ class TrueCrime::TrueCrimeController
   def call
     puts "Welcome to True Crime Documentary Database!"
     input = nil
-
-    show_categories_menu
+    while input != 'exit'
+      puts "Enter number '1' to browse documentaries by category or '2' to see all documentaryes."
+      puts "Enter 'exit' to quit."
+      input = gets.strip
+      case input
+      when "1" then show_categories_menu
+      when "2" then list_all_documentaries
+      end
+    end
   end
 
   def list_all_documentaries
+    puts "1. MURDERERS AND THEIR MOTHERS - SEASON 1 etc..."
+    puts "2. CONFESSIONS OF CRIME } VOLUME 1-3 etc..."
+    puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
+    puts "4. GOING POSTAL (2009)"
+    puts "5. THE CHICAGO RIPPERS etc..."
+    puts "6. MY SON: THE SERIAL KILLER etc..."
 
   end
 
@@ -37,11 +50,49 @@ class TrueCrime::TrueCrimeController
 
   def show_categories_menu
     puts "Enter number for category."
-    puts "Enter 'return' for main menue, or 'exit' to quit."
-    list_all_categories
+    puts "Enter 'return' for main menu, or 'exit' to quit."
+    input = nil
+    while input != 'exit'
+      list_all_categories
+      input = gets.strip
+      case input
+      when "1"
+        list_documentaries_by_category("Drugs")
+      when "2"
+        list_documentaries_by_category("Forensics & Profiling")
+      when "3"
+        list_documentaries_by_category("Gangs")
+      when "4"
+        list_documentaries_by_category("Historical")
+      when "5"
+        list_documentaries_by_category("Kidnap & Hostage")
+      when "6"
+        list_documentaries_by_category("Miscellaneous")
+      when "7"
+        list_documentaries_by_category("Murder")
+      when "8"
+        list_documentaries_by_category("Organized  Crime")
+      when "9"
+        list_documentaries_by_category("Prison")
+      when "10"
+        list_documentaries_by_category("Scam & Fraud")
+      when "11"
+        list_documentaries_by_category("Serial Killer")
+      when "12"
+        list_documentaries_by_category("Sexual")
+      when "13"
+        list_documentaries_by_category("Technological")
+      when "14"
+        list_documentaries_by_category("Theft & Robbery")
+      when "15"
+        list_documentaries_by_category("War & Terror")
+      when "Return".downcase
+        call
+      end
+    end
   end
 
-  def list_all_documentaries_by_category(category)
+  def list_documentaries_by_category(category)
 
   end
 
