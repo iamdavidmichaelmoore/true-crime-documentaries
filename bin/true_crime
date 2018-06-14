@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+
+TrueCrime::TrueCrimeController.new.run
