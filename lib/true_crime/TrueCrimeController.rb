@@ -93,6 +93,15 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_documentaries_by_category(category)
+    # functions below are fake and temporary just to see the menus work
+    puts "#{category.upcase}"
+    # just holder titles that don't relate to the category passed in as arg
+    puts "1. MURDERERS AND THEIR MOTHERS - SEASON 1 etc..."
+    puts "2. CONFESSIONS OF CRIME } VOLUME 1-3 etc..."
+    puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
+    puts "4. GOING POSTAL (2009)"
+    puts "5. THE CHICAGO RIPPERS etc..."
+    puts "6. MY SON: THE SERIAL KILLER etc..."
 
   end
 
