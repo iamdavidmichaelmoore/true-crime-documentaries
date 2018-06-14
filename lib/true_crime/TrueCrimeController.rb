@@ -1,5 +1,5 @@
-require 'nokogiri'
-require 'colorize'
+# require 'nokogiri'
+# require 'colorize'
 
 
 class TrueCrime::TrueCrimeController
@@ -9,13 +9,15 @@ class TrueCrime::TrueCrimeController
   def call
     puts "Welcome to True Crime Documentary Database!"
     input = nil
-    while input != 'exit'
-      puts "Enter number '1' to browse documentaries by category or '2' to see all documentaryes."
-      puts "Enter 'exit' to quit."
+    while input != 'exit' || input == "2"
+      puts "Enter number '1' to see all documentaries."
+      puts "Enter number '2' to browse documentaries by category"
+      puts "Enter 'exit' to quit the program.\n"
+      puts "\n"
       input = gets.strip
       case input
-      when "1" then show_categories_menu
-      when "2" then list_all_documentaries
+      when "1" then list_all_documentaries
+      when "2" then show_categories_menu
       end
     end
   end
@@ -26,7 +28,9 @@ class TrueCrime::TrueCrimeController
     puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
     puts "4. GOING POSTAL (2009)"
     puts "5. THE CHICAGO RIPPERS etc..."
-    puts "6. MY SON: THE SERIAL KILLER etc..."
+    puts "6. MY SON: THE SERIAL KILLER etc...\n"
+    puts "\n"
+
 
   end
 
@@ -45,49 +49,34 @@ class TrueCrime::TrueCrimeController
     puts "12. Sexual"
     puts "13. Technological"
     puts "14. Theft & Robbery"
-    puts "15. War & Terror"
+    puts "15. War & Terror\n"
+    puts "\n"
   end
 
   def show_categories_menu
-    puts "Enter number for category."
-    puts "Enter 'return' for main menu, or 'exit' to quit."
+    puts "Enter a number for category."
+    puts "Enter 'exit' to return to main menu.\n"
+    puts "\n"
+    list_all_categories
     input = nil
-    while input != 'exit'
-      list_all_categories
-      input = gets.strip
+    while input != 'exit' || input == nil
+      input = gets.strip.downcase
       case input
-      when "1"
-        list_documentaries_by_category("Drugs")
-      when "2"
-        list_documentaries_by_category("Forensics & Profiling")
-      when "3"
-        list_documentaries_by_category("Gangs")
-      when "4"
-        list_documentaries_by_category("Historical")
-      when "5"
-        list_documentaries_by_category("Kidnap & Hostage")
-      when "6"
-        list_documentaries_by_category("Miscellaneous")
-      when "7"
-        list_documentaries_by_category("Murder")
-      when "8"
-        list_documentaries_by_category("Organized  Crime")
-      when "9"
-        list_documentaries_by_category("Prison")
-      when "10"
-        list_documentaries_by_category("Scam & Fraud")
-      when "11"
-        list_documentaries_by_category("Serial Killer")
-      when "12"
-        list_documentaries_by_category("Sexual")
-      when "13"
-        list_documentaries_by_category("Technological")
-      when "14"
-        list_documentaries_by_category("Theft & Robbery")
-      when "15"
-        list_documentaries_by_category("War & Terror")
-      when "Return".downcase
-        call
+      when "1" then list_documentaries_by_category("Drugs")
+      when "2" then list_documentaries_by_category("Forensics & Profiling")
+      when "3" then list_documentaries_by_category("Gangs")
+      when "4" then list_documentaries_by_category("Historical")
+      when "5" then list_documentaries_by_category("Kidnap & Hostage")
+      when "6" then list_documentaries_by_category("Miscellaneous")
+      when "7" then list_documentaries_by_category("Murder")
+      when "8" then list_documentaries_by_category("Organized  Crime")
+      when "9" then list_documentaries_by_category("Prison")
+      when "10" then list_documentaries_by_category("Scam & Fraud")
+      when "11" then list_documentaries_by_category("Serial Killer")
+      when "12" then list_documentaries_by_category("Sexual")
+      when "13" then list_documentaries_by_category("Technological")
+      when "14" then list_documentaries_by_category("Theft & Robbery")
+      when "15" then list_documentaries_by_category("War & Terror")
       end
     end
   end
@@ -101,7 +90,8 @@ class TrueCrime::TrueCrimeController
     puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
     puts "4. GOING POSTAL (2009)"
     puts "5. THE CHICAGO RIPPERS etc..."
-    puts "6. MY SON: THE SERIAL KILLER etc..."
+    puts "6. MY SON: THE SERIAL KILLER etc...\n"
+    puts "\n"
 
   end
 
