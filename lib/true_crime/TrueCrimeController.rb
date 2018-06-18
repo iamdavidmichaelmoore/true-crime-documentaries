@@ -8,6 +8,8 @@ class TrueCrime::TrueCrimeController
   attr_accessor :categories
   attr_reader :category_data, :documentary_data
 
+  BASE_PATH = "http:crimedocumentary.com"
+
   def initialize
     @raw_cat_data = Scraper.scrape_categories
     @raw_doc_data = Scraper.scrape_documentaries
@@ -22,7 +24,7 @@ class TrueCrime::TrueCrimeController
   end
 
   def make_categories
-
+    raw_cat_data
   end
 
   def make_documentaries
@@ -30,7 +32,7 @@ class TrueCrime::TrueCrimeController
   end
 
   def add_attributes_to_docs
-    
+
   end
 
   def welcome
