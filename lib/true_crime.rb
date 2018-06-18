@@ -1,3 +1,5 @@
+require "nokogiri"
+
 require_relative "./true_crime/version"
 require_relative "./true_crime/TrueCrimeController"
 require_relative "./scraper"
