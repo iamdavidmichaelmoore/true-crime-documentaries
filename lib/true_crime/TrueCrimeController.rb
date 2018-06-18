@@ -6,6 +6,32 @@ require 'pry'
 class TrueCrime::TrueCrimeController
 
   attr_accessor :categories
+  attr_reader :category_data, :documentary_data
+
+  def initialize
+    @raw_cat_data = Scraper.scrape_categories
+    @raw_doc_data = Scraper.scrape_documentaries
+  end
+
+  def run
+    make_categories
+    make_documentaries
+    add_attributes_to_docs
+    welcome
+    call
+  end
+
+  def make_categories
+
+  end
+
+  def make_documentaries
+
+  end
+
+  def add_attributes_to_docs
+    
+  end
 
   def welcome
     puts "Welcome to True Crime Documentary Database!"
@@ -28,18 +54,6 @@ class TrueCrime::TrueCrimeController
       call
     end
   end
-
-  # def list_all_documentaries
-  #   puts "\n"
-  #   puts "1. MURDERERS AND THEIR MOTHERS - SEASON 1 etc..."
-  #   puts "2. CONFESSIONS OF CRIME } VOLUME 1-3 etc..."
-  #   puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
-  #   puts "4. GOING POSTAL (2009)"
-  #   puts "5. THE CHICAGO RIPPERS etc..."
-  #   puts "6. MY SON: THE SERIAL KILLER etc...\n"
-  #   puts "\n"
-  #   call
-  # end
 
   def list_all_documentaries
     Category.all.each_with_index do |doc, num|
@@ -77,6 +91,7 @@ class TrueCrime::TrueCrimeController
     puts "True Crime Categories"
     Category.all.sort_by {|doc| doc.title}.each.with_index(1) do |doc, num|
       puts "#{num}. #{doc.name}"
+    end
   end
 
   def show_categories_menu
