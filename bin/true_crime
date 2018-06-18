@@ -2,4 +2,4 @@
 
 require './lib/true_crime'
 
-TrueCrime::TrueCrimeController.new.call
+TrueCrime::TrueCrimeController.new.run
