@@ -1,5 +1,6 @@
 # require 'nokogiri'
 # require 'colorize'
+require 'pry'
 
 
 class TrueCrime::TrueCrimeController
@@ -8,8 +9,9 @@ class TrueCrime::TrueCrimeController
 
   def call
     puts "Welcome to True Crime Documentary Database!"
+    puts "\n"
     input = nil
-    while input != 'exit' || input == "2"
+    unless  input == 'exit'
       puts "Enter number '1' to see all documentaries."
       puts "Enter number '2' to browse documentaries by category"
       puts "Enter 'exit' to quit the program.\n"
@@ -19,6 +21,8 @@ class TrueCrime::TrueCrimeController
       when "1" then list_all_documentaries
       when "2" then show_categories_menu
       end
+    else
+      call
     end
   end
 
@@ -30,8 +34,7 @@ class TrueCrime::TrueCrimeController
     puts "5. THE CHICAGO RIPPERS etc..."
     puts "6. MY SON: THE SERIAL KILLER etc...\n"
     puts "\n"
-
-
+    call
   end
 
   def list_all_categories
@@ -54,12 +57,11 @@ class TrueCrime::TrueCrimeController
   end
 
   def show_categories_menu
-    puts "Enter a number for category."
-    puts "Enter 'exit' to return to main menu.\n"
-    puts "\n"
-    list_all_categories
     input = nil
-    while input != 'exit' || input == nil
+    unless input == 'exit'
+      puts "Enter a number for category."
+      puts "\n"
+      list_all_categories
       input = gets.strip.downcase
       case input
       when "1" then list_documentaries_by_category("Drugs")
@@ -78,6 +80,8 @@ class TrueCrime::TrueCrimeController
       when "14" then list_documentaries_by_category("Theft & Robbery")
       when "15" then list_documentaries_by_category("War & Terror")
       end
+    else
+      show_categories_menu
     end
   end
 
@@ -92,7 +96,7 @@ class TrueCrime::TrueCrimeController
     puts "5. THE CHICAGO RIPPERS etc..."
     puts "6. MY SON: THE SERIAL KILLER etc...\n"
     puts "\n"
-
+    call
   end
 
   def categories
