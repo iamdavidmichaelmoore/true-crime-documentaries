@@ -31,4 +31,8 @@ class Category
     category
   end
 
+  def category.count
+    
+  end
+
 end

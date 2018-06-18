@@ -22,14 +22,26 @@ class Documentary
     self.all.clear
   end
 
-  def find_or_create_by_category(name)
+  def create_from_collection(hash)
+
   end
 
-  def find_by_category(name)
+  def add_attributes_doc_attributes(hash)
+    
   end
 
-  def category=(name)
+  def documentary_count
+
   end
+
+  # def find_or_create_by_category(name)
+  # end
+  #
+  # def find_by_category(name)
+  # end
+  #
+  # def category=(name)
+  # end
 
 
 end
