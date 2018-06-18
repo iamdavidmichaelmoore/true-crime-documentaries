@@ -7,9 +7,12 @@ class TrueCrime::TrueCrimeController
 
   attr_accessor :categories
 
-  def call
+  def welcome
     puts "Welcome to True Crime Documentary Database!"
     puts "\n"
+  end
+
+  def call
     input = nil
     unless  input == 'exit'
       puts "Enter number '1' to see all documentaries."
@@ -26,41 +29,61 @@ class TrueCrime::TrueCrimeController
     end
   end
 
+  # def list_all_documentaries
+  #   puts "\n"
+  #   puts "1. MURDERERS AND THEIR MOTHERS - SEASON 1 etc..."
+  #   puts "2. CONFESSIONS OF CRIME } VOLUME 1-3 etc..."
+  #   puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
+  #   puts "4. GOING POSTAL (2009)"
+  #   puts "5. THE CHICAGO RIPPERS etc..."
+  #   puts "6. MY SON: THE SERIAL KILLER etc...\n"
+  #   puts "\n"
+  #   call
+  # end
+
   def list_all_documentaries
-    puts "1. MURDERERS AND THEIR MOTHERS - SEASON 1 etc..."
-    puts "2. CONFESSIONS OF CRIME } VOLUME 1-3 etc..."
-    puts "3. THE SYSTEM: ESCAPE FROM DEATH ROW etc..."
-    puts "4. GOING POSTAL (2009)"
-    puts "5. THE CHICAGO RIPPERS etc..."
-    puts "6. MY SON: THE SERIAL KILLER etc...\n"
-    puts "\n"
-    call
+    Category.all.each_with_index do |doc, num|
+      puts "\n"
+      puts "#{num}." + " #{doc.title.upcase}.colorize(:blue)"
+      puts "  Year:".colorize(:light_blue) + "#{doc.year}"
+      puts "  Category:".colorize(:light_blue) + "#{doc.category.name}"
+      puts "\n"
+      puts "  Synopsis:".colorize(:light_blue)
+      puts "  #{doc.synopsis}"
+      puts "  Full synopsis URL:".colorize(:light_blue) + "#{doc.synopsis_url}"
+    end
   end
 
+  # def list_all_categories
+  #   puts "1. Drugs"
+  #   puts "2. Forensics & Profiling"
+  #   puts "3. Gangs"
+  #   puts "4. Historical"
+  #   puts "5. Kidnap & Hostage"
+  #   puts "6. Miscellaneous"
+  #   puts "7. Murder"
+  #   puts "8. Organized Crime"
+  #   puts "9. Prison"
+  #   puts "10. Scam & Fraud"
+  #   puts "11. Serial Killers"
+  #   puts "12. Sexual"
+  #   puts "13. Technological"
+  #   puts "14. Theft & Robbery"
+  #   puts "15. War & Terror\n"
+  #   puts "\n"
+  # end
+
   def list_all_categories
-    puts "1. Drugs"
-    puts "2. Forensics & Profiling"
-    puts "3. Gangs"
-    puts "4. Historical"
-    puts "5. Kidnap & Hostage"
-    puts "6. Miscellaneous"
-    puts "7. Murder"
-    puts "8. Organized Crime"
-    puts "9. Prison"
-    puts "10. Scam & Fraud"
-    puts "11. Serial Killers"
-    puts "12. Sexual"
-    puts "13. Technological"
-    puts "14. Theft & Robbery"
-    puts "15. War & Terror\n"
-    puts "\n"
+    puts "True Crime Categories"
+    Category.all.sort_by {|doc| doc.title}.each.with_index(1) do |doc, num|
+      puts "#{num}. #{doc.name}"
   end
 
   def show_categories_menu
     input = nil
     unless input == 'exit'
-      puts "Enter a number for category."
       puts "\n"
+      puts "Enter a number for category."
       list_all_categories
       input = gets.strip.downcase
       case input
@@ -86,6 +109,7 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_documentaries_by_category(category)
+    puts "\n"
     # functions below are fake and temporary just to see the menus work
     puts "#{category.upcase}"
     # just holder titles that don't relate to the category passed in as arg
