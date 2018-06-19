@@ -7,7 +7,7 @@ class TrueCrimeScraper
   def self.scrape_categories(controller_base_path)
     categories_with_urls = []
     index_page = Nokogiri::HTML(open(controller_base_path))
-    binding.pry
+    binding.pry #find what gets me to the categories ul
     index_page.css().each.with_index(1) do |category, num|
       hash = {}
       hash[:category] = category.css().text
