@@ -17,7 +17,6 @@ class TrueCrime::TrueCrimeController
   def make_categories
       categories = TrueCrimeScraper.scrape_categories(INDEX_PAGE_PATH)
       Category.create_from_collection(categories)
-      binding.pry
   end
 
   def make_documentaries
