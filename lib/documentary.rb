@@ -27,21 +27,21 @@ class Documentary
   end
 
   def add_attributes_doc_attributes(hash)
-    
+
   end
 
   def documentary_count
 
   end
 
-  # def find_or_create_by_category(name)
-  # end
-  #
-  # def find_by_category(name)
-  # end
-  #
-  # def category=(name)
-  # end
+  def find_or_create_by_category(name)
+  end
+
+  def find_by_category(name)
+  end
+
+  def category=(name)
+  end
 
 
 end

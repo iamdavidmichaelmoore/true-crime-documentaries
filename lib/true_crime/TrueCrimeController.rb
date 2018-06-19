@@ -6,14 +6,8 @@ require 'pry'
 class TrueCrime::TrueCrimeController
 
   attr_accessor :categories
-  attr_reader :category_data, :documentary_data
 
   BASE_PATH = "http:crimedocumentary.com"
-
-  def initialize
-    @raw_cat_data = Scraper.scrape_categories
-    @raw_doc_data = Scraper.scrape_documentaries
-  end
 
   def run
     make_categories
@@ -24,10 +18,14 @@ class TrueCrime::TrueCrimeController
   end
 
   def make_categories
-    raw_cat_data
+      categories = TrueCrimeScraper.scrape_categories(BASE_PATH)
+      Category.create_from_category_collection(categories)
   end
 
   def make_documentaries
+    Category.all.each do |category|
+      path = text_to_url_path(category.name)
+      TrueCrimeScraper.scrape_documentaries(BASE_PATH + "#{}")
 
   end
 
@@ -142,6 +140,16 @@ class TrueCrime::TrueCrimeController
 
   def categories
     @categories = []
+  end
+
+  def text_to_url_path(text)
+    if text.include?("&")
+      new_text = text.gsub(" ", "").gsub("&","-").downcase
+      "/category/#{new_text}/"
+    else
+      new_text = text.gsub(" ", "-").downcase
+      "/category/#{new_text}/"
+    end
   end
 
 end

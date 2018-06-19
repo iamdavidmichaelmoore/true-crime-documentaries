@@ -3,13 +3,14 @@ require_relative "./true_crime"
 
 class Category
 
-  attr_accessor :name
-  attr_reader :documentaries
+  attr_reader :documentaries, :name, :url
 
   @@all = []
 
-  def initialize(name)
-    @name = name
+  def initialize(hash=nil, name=nil)
+    hash.each do |key, value|
+      self.send("#{key}=", value)
+    end
     @documentaries = []
   end
 
@@ -25,6 +26,13 @@ class Category
     self.all.clear
   end
 
+  def create_from_category_collection(array)
+    array.each do |hash|
+      category = self.new(hash)
+      category.save
+    end
+  end
+
   def self.create(name)
     category = self.new(name)
     category.save
@@ -32,7 +40,7 @@ class Category
   end
 
   def category.count
-    
+
   end
 
 end
