@@ -7,20 +7,28 @@ class TrueCrimeScraper
   def self.scrape_categories(controller_base_path)
     categories_with_urls = []
     index_page = Nokogiri::HTML(open(controller_base_path))
-    binding.pry #find what gets me to the categories ul
-    index_page.css().each.with_index(1) do |category, num|
+    index_page.css("div.g1-column-inner #text-5 ul li").each_with_index do |category, num|
       hash = {}
-      hash[:category] = category.css().text
-      hash[:url] = index_page.css()[num]["href"]
+      hash[:name] = category.text
+      hash[:url] = index_page.css("div.g1-column-inner #text-5 ul li a")[num]["href"]
       categories_with_urls << hash
     end
     categories_with_urls
   end
 
-  # then I can call the Category class in order interpolate the names
-  # as a concatenation with the BASE_PATH in order get the all of the docs
-  def self.scrape_documentaries(base_path_with_category_path)
-
+  def self.scrape_documentaries(category_url)
+    documentaries_with_attributes = []
+    category_page = Nokogiri::HTML(open(category_url))
+    # binding.pry
+    category_page.css("figure.entry-featured-media").each_with_index do |documentary, num|
+      hash = {}
+      hash[:title] = category_page.css("h3.g1-delta.entry-title a")[num].text
+      hash[:year] = category_page.css("h3.g1-delta.entry-title a")[num].text
+      hash[:year] = hash[:year].split(" ").last.gsub(/[()]/,"")
+      hash[:synopsis] = category_page.css("div.entry-body.g1-current-background div.entry-summary.g1-text-narrow p")[num]
+      hash[:synopsis_url] = category_page.css("figure.entry-featured-media a")[num]["href"]
+      documentaries_with_attributes << hash
+    end
+    documentaries_with_attributes
   end
-
 end
