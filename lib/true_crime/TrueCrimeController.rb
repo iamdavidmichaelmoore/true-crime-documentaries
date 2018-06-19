@@ -16,18 +16,14 @@ class TrueCrime::TrueCrimeController
 
   def make_categories
       categories = TrueCrimeScraper.scrape_categories(INDEX_PAGE_PATH)
-      Category.create_from_category_collection(categories)
+      Category.create_from_collection(categories)
+      binding.pry
   end
 
   def make_documentaries
     Category.all.each do |cat|
-      path = text_to_url_path(cat.name)
-      docs = TrueCrimeScraper.scrape_documentaries(INDEX_PAGE_PATH + "#{path}")
-      Documentary.create_from_collection(docs)
-      Documentary.all.each do |doc|
-        doc.category = cat
-        cat.documentaries << doc
-      end
+      docs = TrueCrimeScraper.scrape_documentaries(cat.url)
+      Documentary.create_from_collection(docs, cat)
     end
   end
 
@@ -107,15 +103,4 @@ class TrueCrime::TrueCrimeController
       call
     end
   end
-
-  def text_to_url_path(text)
-    if text.include?("&")
-      new_text = text.gsub(" ", "").gsub("&","-").downcase
-      "/category/#{new_text}/"
-    else
-      new_text = text.gsub(" ", "-").downcase
-      "/category/#{new_text}/"
-    end
-  end
-
 end
