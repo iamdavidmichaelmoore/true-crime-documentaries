@@ -21,7 +21,7 @@ class TrueCrimeScraper
 
   # then I can call the Category class in order interpolate the names
   # as a concatenation with the BASE_PATH in order get the all of the docs
-  def self.scrape_documentaries_attributes(base_path_with_doc_url)
+  def self.scrape_documentaries(base_path_with_doc_url)
 
   end
 

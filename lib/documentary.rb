@@ -7,8 +7,8 @@ class Documentary
 
   @@all = []
 
-  def initialize(hash)
-    documentary_hash.each do |key, value|
+  def initialize(hash=nil)
+    hash.each do |key, value|
       self.send("#{key}=", value)
     end
     self.class.all << self
@@ -22,11 +22,7 @@ class Documentary
     self.all.clear
   end
 
-  def create_from_collection(hash)
-
-  end
-
-  def add_attributes_doc_attributes(hash)
+  def add_doc_attributes(hash)
 
   end
 
@@ -34,10 +30,11 @@ class Documentary
 
   end
 
-  def find_or_create_by_category(name)
+  def find_or_create_by_name(name)
+
   end
 
-  def find_by_category(name)
+  def find_by_(name)
   end
 
   def category=(name)

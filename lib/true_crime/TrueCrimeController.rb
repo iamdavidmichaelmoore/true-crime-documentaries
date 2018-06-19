@@ -25,7 +25,7 @@ class TrueCrime::TrueCrimeController
   def make_documentaries
     Category.all.each do |category|
       path = text_to_url_path(category.name)
-      TrueCrimeScraper.scrape_documentaries(BASE_PATH + "#{}")
+      documentaries = TrueCrimeScraper.scrape_documentaries(BASE_PATH + "#{path}")
 
   end
 
