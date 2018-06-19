@@ -7,7 +7,7 @@ class Documentary
 
   @@all = []
 
-  def initialize(hash=nil)
+  def initialize(hash)
     hash.each do |key, value|
       self.send("#{key}=", value)
     end
@@ -22,23 +22,13 @@ class Documentary
     self.all.clear
   end
 
-  def add_doc_attributes(hash)
-
+  def self.create_from_collection(array)
+    array.each do |hash|
+      self.new(hash)
+    end
   end
 
-  def documentary_count
-
+  def total_docs_count
+    self.all.count
   end
-
-  def find_or_create_by_name(name)
-
-  end
-
-  def find_by_(name)
-  end
-
-  def category=(name)
-  end
-
-
 end

@@ -7,40 +7,29 @@ class Category
 
   @@all = []
 
-  def initialize(hash=nil, name=nil)
+  def initialize(hash)
     hash.each do |key, value|
       self.send("#{key}=", value)
     end
     @documentaries = []
+    self.class.all << self
   end
 
   def self.all
     @@all
   end
 
-  def save
-    self.class.all << self
-  end
-
   def self.destroy_all
     self.all.clear
   end
 
-  def create_from_category_collection(array)
+  def create_from_collection(array)
     array.each do |hash|
-      category = self.new(hash)
-      category.save
+      self.new(hash)
     end
   end
 
-  def self.create(name)
-    category = self.new(name)
-    category.save
-    category
+  def docs_count
+    documentaries.count
   end
-
-  def category.count
-
-  end
-
 end
