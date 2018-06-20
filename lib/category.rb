@@ -18,6 +18,10 @@ class Category
     @@all
   end
 
+  def save
+    self.class.all << self
+  end
+
   def self.destroy_all
     self.all.clear
   end
@@ -26,6 +30,21 @@ class Category
     array.each do |hash|
       self.new(hash)
     end
+  end
+
+  def self.create(name)
+    category = self.new
+    category.name = name
+    category.save
+    category
+  end
+
+  def self.find_or_create_by_name(name)
+    self.find_by_name(name) || self.create(name)
+  end
+
+  def self.find_by_name(name)
+    self.all.detect {|category| category.name == name}
   end
 
   def docs_count
