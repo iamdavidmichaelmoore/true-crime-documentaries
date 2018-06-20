@@ -69,7 +69,9 @@ class TrueCrime::TrueCrimeController
 
   def list_categories
     sorted_list = Category.all.sort_by {|category| category.name}
-    sorted_list.each.with_index(1) {|category, num| puts "#{num}. #{category.name}"}
+    puts "-------------------------"
+    sorted_list.each.with_index(1) {|category, num| puts "|#{num}. #{category.name}|"}
+    puts "-------------------------"
     puts "\n"
   end
 
