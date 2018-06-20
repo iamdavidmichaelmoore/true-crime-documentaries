@@ -2,8 +2,7 @@ require_relative "./true_crime"
 
 
 class Category
-
-  attr_reader :documentaries, :name, :url
+  attr_accessor :name, :url, :documentaries
 
   @@all = []
 
@@ -23,7 +22,7 @@ class Category
     self.all.clear
   end
 
-  def create_from_collection(array)
+  def self.create_category_from_collection(array)
     array.each do |hash|
       self.new(hash)
     end

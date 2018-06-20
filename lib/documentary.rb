@@ -22,13 +22,16 @@ class Documentary
     self.all.clear
   end
 
-  def self.create_from_collection(array)
-    array.each do |hash|
-      self.new(hash)
+  def self.create_documentary_from_collection(array)
+    array.each do |doc_attributes|
+      documentary = self.new(doc_attributes)
     end
+    # make_collection
   end
 
+
+
   def total_docs_count
-    self.all.count
+    @@all.count
   end
 end
