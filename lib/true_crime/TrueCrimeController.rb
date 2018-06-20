@@ -39,7 +39,7 @@ class TrueCrime::TrueCrimeController
     puts "\n"
     puts "Welcome to True Crime Documentary database!"
     puts "\n"
-    puts "One moment..."
+    puts "One moment... Building collection."
     puts "\n"
   end
 
