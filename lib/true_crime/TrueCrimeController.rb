@@ -11,6 +11,7 @@ class TrueCrime::TrueCrimeController
     welcome
     make_categories
     make_documentaries
+    make_collection
     call
   end
 
@@ -24,6 +25,10 @@ class TrueCrime::TrueCrimeController
       documentaries = TrueCrimeScraper.scrape_documentaries(category.url)
       Documentary.create_documentary_from_collection(documentaries)
     end
+  end
+
+  def make_collection
+    Documentary.sort_documentaries_by_category
   end
 
   def welcome
@@ -40,25 +45,22 @@ class TrueCrime::TrueCrimeController
   end
 
   def call
-    binding.pry
     puts "\n"
     puts "Enter a number for category. Type 'Quit' or 'Q' to end the program."
     puts "\n"
     list_categories
-    input = gets.strip
+    input = gets.strip.downcase
     while input != 'quit' do
       category = Category.all
       case
       when category.include?(category[input.to_i - 1])
         list_documentaries_in_category(category[input.to_i - 1])
         break
-      when input =='quit'.downcase, input == 'q'.downcase
+      when input =='quit'
         puts "\n"
         puts "Thank you! Good-bye!"
         puts "\n"
         exit
-      else
-        call
       end
     end
   end
@@ -66,17 +68,15 @@ class TrueCrime::TrueCrimeController
   def list_categories
     sorted_list = Category.all.sort_by {|category| category.name}
     sorted_list.each.with_index(1) {|category, num| puts "#{num}. #{category.name}"}
-    # puts "\n"
-    binding.pry
+    puts "\n"
   end
 
   def list_documentaries_in_category(category)
     puts "\n"
+    puts "-----------------------------------------------------------------------------"
+    puts "#{category.name.upcase} | #{category.docs_count} title(s)"
+    puts "-----------------------------------------------------------------------------"
     category.documentaries.each.with_index(1) do |documentary, num|
-      puts "\n"
-      puts "-----------------------------------------------------------------------------"
-      puts "#{documentary.category.name.upcase} | #{documentary.category.docs_count} title(s)"
-      puts "-----------------------------------------------------------------------------"
       puts "\n"
       puts "#{num}." + " #{documentary.title.upcase}".colorize(:blue)
       puts "Year:".colorize(:light_blue) + " #{documentary.year}"
