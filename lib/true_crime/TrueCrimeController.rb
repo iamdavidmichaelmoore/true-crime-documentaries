@@ -90,6 +90,7 @@ class TrueCrime::TrueCrimeController
       puts "Follow the link for full synopsis.".colorize(:light_green)
       puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
       puts "-----------------------------------------------------------------------------"
+      puts "                               END OF LIST                                   "
     end
     call
   end
