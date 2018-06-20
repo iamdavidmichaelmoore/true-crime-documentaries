@@ -26,10 +26,22 @@ class Documentary
     array.each do |doc_attributes|
       documentary = self.new(doc_attributes)
     end
-    # make_collection
   end
 
-
+  def self.sort_documentaries_by_category
+    Category.all.each do |category_obj|
+      self.all.each do |documentary|
+        if documentary.category == category_obj.name
+          documentary.category = category_obj
+          category_obj.documentaries << documentary
+        elsif documentary.category == "" || documentary.category.nil?
+          misc = Category.find_or_create_by_name("Miscellaneous")
+          documentary.category = misc
+          misc.documentaries << documentary
+        end
+      end
+    end
+  end
 
   def total_docs_count
     @@all.count
