@@ -8,7 +8,6 @@ class TrueCrime::TrueCrimeController
 
   def run
     welcome
-    make_categories
     make_documentaries
     make_collection
     call
@@ -39,8 +38,10 @@ class TrueCrime::TrueCrimeController
     puts "\n"
     puts "Welcome to True Crime Documentary database!"
     puts "\n"
-    puts "One moment... Building collection."
+    puts "One moment..."
     puts "\n"
+    make_categories
+    puts "Building collection."
   end
 
   def call
@@ -90,8 +91,8 @@ class TrueCrime::TrueCrimeController
       puts "Follow the link for full synopsis.".colorize(:light_green)
       puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
       puts "-----------------------------------------------------------------------------"
-      puts "                               END OF LIST                                   "
     end
+    puts "                               END OF LIST                                   "
     call
   end
 end
