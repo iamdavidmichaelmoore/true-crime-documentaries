@@ -3,7 +3,6 @@ require 'pry'
 
 
 class TrueCrime::TrueCrimeController
-  attr_accessor :raw_doc_data_hash
 
   INDEX_PAGE_PATH = "http://crimedocumentary.com"
 
@@ -38,7 +37,7 @@ class TrueCrime::TrueCrimeController
     puts"  | || |  | |_| |  __/ | |___| |  | | | | | | |  __/"
     puts"  |_||_|   \/__,_|\/___|  \/____|_|  |_|_| |_| |_|\/___|"
     puts "\n"
-    puts "Welcome to True Crime Documentary Database!"
+    puts "Welcome to True Crime Documentary database!"
     puts "\n"
     puts "One moment. Loading information..."
     puts "\n"
@@ -49,13 +48,14 @@ class TrueCrime::TrueCrimeController
     puts "Enter a number for category. Type 'Quit' to end the program."
     puts "\n"
     list_categories
+    puts "Enter selection: "
     input = gets.strip.downcase
     while input != 'exit' do
       category = Category.all
       case
       when input =='quit'.downcase
         puts "\n"
-        puts "Thank you for using True Crime! Good-bye!"
+        puts "Thank you! Good-bye!"
         puts "\n"
         exit
       when category.include?(category[input.to_i - 1])

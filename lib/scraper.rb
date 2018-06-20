@@ -22,9 +22,10 @@ class TrueCrimeScraper
     # binding.pry
     category_page.css("figure.entry-featured-media").each_with_index do |documentary, num|
       hash = {}
-      hash[:title] = category_page.css("h3.g1-delta.entry-title a")[num].text
-      hash[:year] = category_page.css("h3.g1-delta.entry-title a")[num].text
-      hash[:year] = hash[:year].split(" ").last.gsub(/[()]/,"")
+      hash[:title] = category_page.css("h3.g1-delta.entry-title a")[num].text.gsub(/^?[( ]\d{4}[) ]/, " ").strip
+      hash[:year] = category_page.css("h3.g1-delta.entry-title a")[num].text.scan(/^?\d{4}/).last
+      # binding.pry
+      # hash[:year] = hash[:year].split(" ").last.gsub(/[()]/,"")
       hash[:category] = category_page.css("h1.g1-beta.g1-beta-2nd.archive-title").text
       hash[:synopsis] = category_page.css("div.entry-body.g1-current-background div.entry-summary.g1-text-narrow p")[num].text
       hash[:synopsis_url] = category_page.css("figure.entry-featured-media a")[num]["href"]
