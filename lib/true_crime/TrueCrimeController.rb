@@ -3,7 +3,6 @@ require 'pry'
 
 
 class TrueCrime::TrueCrimeController
-  attr_accessor :raw_doc_data_hash
 
   INDEX_PAGE_PATH = "http://crimedocumentary.com"
 
