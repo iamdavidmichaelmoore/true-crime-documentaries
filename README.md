@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+True Crime is delivers basic documentary film and television data from the true crime genre.
 
 ## Development
 
@@ -30,8 +30,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/true_crime. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/iamdavidmichaelmoore/true_crime. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## Code of Conduct
 
-Everyone interacting in the TrueCrime project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/true_crime/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the TrueCrime project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/iamdavidmichaelmoore/true_crime/blob/master/CODE_OF_CONDUCT.md).
+
+## License
+This program is under a MIT [LICENSE](https://github.com/iamdavidmichaelmoore/true-crime-documentaries/blob/master/LICENSE).
