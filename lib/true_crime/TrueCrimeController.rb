@@ -50,17 +50,19 @@ class TrueCrime::TrueCrimeController
     puts "\n"
     list_categories
     input = gets.strip.downcase
-    while input != 'quit' do
+    while input != 'exit' do
       category = Category.all
       case
+      when input =='quit'.downcase
+        puts "\n"
+        puts "Thank you for using True Crime! Good-bye!"
+        puts "\n"
+        exit
       when category.include?(category[input.to_i - 1])
         list_documentaries_in_category(category[input.to_i - 1])
         break
-      when input =='quit'
-        puts "\n"
-        puts "Thank you! Good-bye!"
-        puts "\n"
-        exit
+      else
+        call
       end
     end
   end
@@ -79,11 +81,11 @@ class TrueCrime::TrueCrimeController
     category.documentaries.each.with_index(1) do |documentary, num|
       puts "\n"
       puts "#{num}." + " #{documentary.title.upcase}".colorize(:blue)
-      puts "Year:".colorize(:light_blue) + " #{documentary.year}"
-      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
+      puts "Year:".colorize(:light_blue) + " #{documentary.year}".colorize(:light_green)
+      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}".colorize(:light_green)
       puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
       puts "\n"
-      puts "Follow the link for full synopsis."
+      puts "Follow the link for full synopsis.".colorize(:light_green)
       puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
       puts "-----------------------------------------------------------------------------"
     end
