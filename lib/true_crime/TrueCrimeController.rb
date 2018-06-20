@@ -8,9 +8,9 @@ class TrueCrime::TrueCrimeController
 
   def run
     welcome
-    make_categories
-    make_documentaries
-    make_collection
+    # make_categories
+    # make_documentaries
+    # make_collection
     call
   end
 
@@ -39,8 +39,11 @@ class TrueCrime::TrueCrimeController
     puts "\n"
     puts "Welcome to True Crime Documentary database!"
     puts "\n"
-    puts "One moment. Loading information..."
+    puts "One moment..."
     puts "\n"
+    make_categories
+    puts "Building collection."
+    make_documentaries
   end
 
   def call
@@ -59,6 +62,8 @@ class TrueCrime::TrueCrimeController
         puts "\n"
         exit
       when category.include?(category[input.to_i - 1])
+        puts "Retrieving selection."
+        make_collection
         list_documentaries_in_category(category[input.to_i - 1])
         break
       else

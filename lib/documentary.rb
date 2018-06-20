@@ -33,11 +33,9 @@ class Documentary
       self.all.each do |documentary|
         if documentary.category == category_obj.name
           documentary.category = category_obj
-          category_obj.documentaries << documentary
-        elsif documentary.category == "" || documentary.category.nil?
-          misc = Category.find_or_create_by_name("Miscellaneous")
-          documentary.category = misc
-          misc.documentaries << documentary
+          unless category_obj.documentaries.include?(documentary)
+            category_obj.documentaries << documentary
+          end
         end
       end
     end
