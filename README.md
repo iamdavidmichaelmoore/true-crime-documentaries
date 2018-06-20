@@ -1,6 +1,6 @@
 # TrueCrime
 
-This application will prove a list of true crime documentary films and television shows arranged by category.
+This application will provide a list of true crime documentary films and television shows arranged by category.
 
 ## Installation
 
