@@ -46,7 +46,7 @@ class TrueCrime::TrueCrimeController
 
   def call
     puts "\n"
-    puts "Enter a number for category. Type 'Quit' or 'Q' to end the program."
+    puts "Enter a number for category. Type 'Quit' to end the program."
     puts "\n"
     list_categories
     input = gets.strip.downcase
