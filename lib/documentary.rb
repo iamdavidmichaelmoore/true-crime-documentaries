@@ -40,8 +40,4 @@ class Documentary
       end
     end
   end
-
-  def total_docs_count
-    @@all.count
-  end
 end
