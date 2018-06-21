@@ -46,7 +46,7 @@ class TrueCrime::TrueCrimeController
   def call
     puts "\n"
     puts "Enter a number for category. Type 'Quit' to end the program."
-    puts "\n"
+    puts "You may need to scroll up to see your options/results."
     list_categories
     puts "Enter selection: \n"
     input = gets.strip.downcase
@@ -90,7 +90,7 @@ class TrueCrime::TrueCrimeController
     puts "Enter number for title. Type 'Return' for categories menu or 'Quit'.\n"
     input = gets.strip
     while input != 'exit' do
-      documentary = Documentary.all#.sort_by {|documentary| documentary.title}
+      documentary = Documentary.all.sort_by {|documentary| documentary.title}
       # binding.pry
       case
       when input == 'quit'.downcase
@@ -102,7 +102,7 @@ class TrueCrime::TrueCrimeController
         call
         break
       when documentary.include?(documentary[input.to_i - 1])
-        display_documentary_info(documentary[input.to_i - 1])
+        display_documentary_info(documentary[input.to_i - 1], input.to_i)
         break
       else
         documentary_titles_menu
@@ -127,8 +127,8 @@ class TrueCrime::TrueCrimeController
     puts "  True Crime Documentaries | #{documentaries.count} title(s)"
     puts "-----------------------------------------------------------------------------"
     documentaries.each.with_index(1) do |documentary, num|
-      puts "#{num}. #{documentary.title} - (#{documentary.year}) - #{documentary.category.name}"
-      puts "---------------------------------------------------------------------------"
+      puts "#{num}." + " #{documentary.title}".colorize(:red) + " - (#{documentary.year})" + " - #{documentary.category.name}".colorize(:green)
+      puts "-----------------------------------------------------------------------------"
     end
     puts "\n"
   end
@@ -141,7 +141,7 @@ class TrueCrime::TrueCrimeController
     puts "-----------------------------------------------------------------------------"
     category.documentaries.each.with_index(1) do |documentary, num|
       puts "\n"
-      puts "#{num}." + " #{documentary.title.upcase}".colorize(:blue)
+      puts "#{num}." + " #{documentary.title.upcase}".colorize(:red)
       puts "Year:".colorize(:light_blue) + " #{documentary.year}".colorize(:light_green)
       puts "Category:".colorize(:light_blue) + " #{documentary.category.name}".colorize(:light_green)
       puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
@@ -155,12 +155,12 @@ class TrueCrime::TrueCrimeController
     call
   end
 
-  def display_documentary_info(documentary)
+  def display_documentary_info(documentary, selection)
     puts "\n"
     puts "----------------------------------------------------------------------------"
-    puts "TITLE CARD"
+    puts "TITLE CARD: #{selection}"
     puts "----------------------------------------------------------------------------"
-    puts "#{documentary.title.upcase}".colorize(:blue)
+    puts "#{documentary.title.upcase}".colorize(:red)
     puts "Year:".colorize(:light_blue) + " #{documentary.year}".colorize(:light_green)
     puts "Category:".colorize(:light_blue) + " #{documentary.category.name}".colorize(:light_green)
     puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
