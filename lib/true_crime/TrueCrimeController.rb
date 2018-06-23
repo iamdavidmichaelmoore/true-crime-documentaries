@@ -42,11 +42,14 @@ class TrueCrime::TrueCrimeController
     puts"  | || |  | |_| |  __/ | |___| |  | | | | | | |  __/"
     puts"  |_||_|   \/__,_|\/___|  \/____|_|  |_|_| |_| |_|\/___|"
     puts "\n"
-    puts "Welcome to True Crime Documentary database!"
+    puts "Welcome to the  True Crime Documentary Database!"
     puts "\n"
-    puts "One moment... Getting information."
+    puts "One moment... Gathering information."
     puts "\n"
-    make_categories
+    get_urls
+    puts "Building collection. This will take a while..."
+    get_documentary_attributes
+    add_documentary_attributes
   end
 
   def call
@@ -65,24 +68,13 @@ class TrueCrime::TrueCrimeController
         puts "Thank you! Good-bye!"
         puts "\n"
         exit
-      when input == (category.count + 1).to_s && documentary.empty?
-        puts "Getting more information. This will take a few seconds..."
-        make_documentaries
-        make_collection
+      when input == (category.count + 1).to_s
         documentary_titles_menu
         break
-      when input == (category.count + 1).to_s && !documentary.empty?
-        make_collection
-        documentary_titles_menu
-        break
-      when category.include?(category[input.to_i - 1]) && documentary.empty?
-        puts "Getting more information. This will take a few seconds..."
-        make_documentaries
-        make_collection
+      when category.include?(category[input.to_i - 1])
         list_documentaries_in_category(category[input.to_i - 1])
         break
-      when category.include?(category[input.to_i - 1]) && !documentary.empty?
-        make_collection
+      when category.include?(category[input.to_i - 1])
         list_documentaries_in_category(category[input.to_i - 1])
         break
       else
@@ -96,8 +88,7 @@ class TrueCrime::TrueCrimeController
     puts "Enter number for title. Type 'Return' for categories menu or 'Quit'.\n"
     input = gets.strip
     while input != 'exit' do
-      documentary = Documentary.all.sort_by {|documentary| documentary.title}
-      # binding.pry
+      documentary = Documentary.alphabetical
       case
       when input == 'quit'.downcase
         puts "\n"
