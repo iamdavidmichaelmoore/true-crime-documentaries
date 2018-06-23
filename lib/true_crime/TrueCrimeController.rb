@@ -6,27 +6,31 @@ class TrueCrime::TrueCrimeController
 
   INDEX_PAGE_PATH = "http://crimedocumentary.com"
 
+  def initialize
+    @docs_urls = []
+    @documentary_attributes = []
+  end
+
   def run
     welcome
-    # make_documentaries
-    # make_collection
     call
   end
 
-  def make_categories
-      categories = TrueCrimeScraper.scrape_categories(INDEX_PAGE_PATH)
-      Category.create_category_from_collection(categories)
+  def get_urls
+    urls = TrueCrimeScraper.scrape_urls(INDEX_PAGE_URL)
+    urls.each {|url| docs_urls << url}
   end
 
-  def make_documentaries
-    Category.all.each do |category|
-      documentaries = TrueCrimeScraper.scrape_documentaries(category.url)
-      Documentary.create_documentary_from_collection(documentaries)
+  def get_documentary_attributes
+    docs = []
+    docs_urls.each do |path|
+      docs =  TrueCrimeScraper.scrape_documentary_attributes(path)
+      docs.each {|attributes| documentary_attributes << attributes}
     end
   end
 
-  def make_collection
-    Documentary.sort_documentaries_by_category
+  def add_documentary_attributes
+      Documentary.create_documentary_from_collection(documentary_attributes)
   end
 
   def welcome
