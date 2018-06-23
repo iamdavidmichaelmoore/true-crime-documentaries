@@ -20,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-True Crime is delivers basic documentary film and television data from the true crime genre.
+True Crime delivers basic documentary film and television data from the true crime genre.
 
 ## Development
 
