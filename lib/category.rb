@@ -2,16 +2,13 @@ require_relative "./true_crime"
 
 
 class Category
-  attr_accessor :name, :url, :documentaries
+  attr_accessor :name
+  attr_reader :documentaries
 
   @@all = []
 
-  def initialize(hash)
-    hash.each do |key, value|
-      self.send("#{key}=", value)
-    end
+  def initialize
     @documentaries = []
-    self.class.all << self
   end
 
   def self.all
@@ -26,10 +23,28 @@ class Category
     self.class.all << self
   end
 
-  def self.create_category_from_collection(array)
-    array.each do |hash|
-      self.new(hash)
-    end
+  def self.create
+    category = Category.new
+    category.save
+    category
+  end
+
+  def self.create_by_name(category_name)
+    category = self.create
+    category.name = category_name
+    category
+  end
+
+  def self.find_by_name(category_name)
+    self.all.detect {|category| category.name == category_name}
+  end
+
+  def self.find_or_create_by_name(category_name)
+    self.find_by_name(category_name) || self.create_by_name(category_name)
+  end
+
+  def self.alphabetical
+    self.all.sort_by {|category| category.name}
   end
 
   def docs_count
