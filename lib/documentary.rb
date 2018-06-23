@@ -22,22 +22,22 @@ class Documentary
     self.all.clear
   end
 
-  def self.create_documentary_from_collection(array)
-    array.each do |doc_attributes|
-      documentary = self.new(doc_attributes)
+  def self.create_documentary_from_collection(attributes_hash_array)
+    attributes_hash_array.each do |attributes|
+      documentary = self.new(attributes)
+      category = Category.find_or_create_by_name(attributes[:category])
+      documentary.category = category
+      unless category.documentaries.include?(documentary)
+        category.documentaries << documentary
+      end
     end
   end
 
-  def self.sort_documentaries_by_category
-    Category.all.each do |category_obj|
-      self.all.each do |documentary|
-        if documentary.category == category_obj.name
-          documentary.category = category_obj
-          unless category_obj.documentaries.include?(documentary)
-            category_obj.documentaries << documentary
-          end
-        end
-      end
-    end
+  def self.alphabetical
+    self.all.sort_by {|documentary| documentary.title}
+  end
+
+  def self.docs_count
+    self.all.count
   end
 end
