@@ -1,6 +1,5 @@
 require_relative "./true_crime"
 require 'open-uri'
-require 'pry'
 
 
 class TrueCrimeScraper

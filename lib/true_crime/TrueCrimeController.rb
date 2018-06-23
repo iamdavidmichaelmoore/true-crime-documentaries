@@ -1,6 +1,4 @@
 require 'colorize'
-require 'pry'
-
 
 class TrueCrime::TrueCrimeController
 
