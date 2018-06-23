@@ -6,7 +6,7 @@ class TrueCrime::TrueCrimeController
 
   attr_reader :docs_urls, :documentary_attributes
 
-  INDEX_PAGE_PATH = "http://crimedocumentary.com"
+  INDEX_PAGE_URL = "http://crimedocumentary.com"
 
   def initialize
     @docs_urls = []
