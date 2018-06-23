@@ -4,6 +4,8 @@ require 'pry'
 
 class TrueCrime::TrueCrimeController
 
+  attr_reader :docs_urls, :documentary_attributes
+
   INDEX_PAGE_PATH = "http://crimedocumentary.com"
 
   def initialize
