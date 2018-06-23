@@ -108,23 +108,25 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_categories
-    sorted_list = Category.all.sort_by {|category| category.name}
+    categories = Category.alphabetical
     puts "--------------------------"
     puts "  True Crime Categories"
     puts "--------------------------"
-    sorted_list.each.with_index(1) {|category, num| puts "#{num}. #{category.name}"}
+    categories.each.with_index(1) do |category, num|
+      puts "#{num}. #{category.name} (#{category.docs_count})"
+    end
     puts "-------------------------"
-    puts "#{sorted_list.count + 1}. Browse By Title"
+    puts "#{categories.count + 1}. Browse By Title (#{Documentary.docs_count})"
     puts "\n"
   end
 
   def list_documentaries
-    documentaries = Documentary.all.sort_by {|documentary| documentary.title}
+    documentaries = Documentary.alphabetical
     puts "-----------------------------------------------------------------------------"
     puts "  True Crime Documentaries | #{documentaries.count} title(s)"
     puts "-----------------------------------------------------------------------------"
     documentaries.each.with_index(1) do |documentary, num|
-      puts "#{num}." + " #{documentary.title}".colorize(:red) + " - (#{documentary.year})" + " - #{documentary.category.name}".colorize(:green)
+      puts "#{num}." + " #{documentary.title}".colorize(:red) + "- (#{documentary.year}) - #{documentary.category.name}"
       puts "-----------------------------------------------------------------------------"
     end
     puts "\n"
@@ -139,11 +141,11 @@ class TrueCrime::TrueCrimeController
     category.documentaries.each.with_index(1) do |documentary, num|
       puts "\n"
       puts "#{num}." + " #{documentary.title.upcase}".colorize(:red)
-      puts "Year:".colorize(:light_blue) + " #{documentary.year}".colorize(:light_green)
-      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}".colorize(:light_green)
+      puts "Year:".colorize(:light_blue) + " #{documentary.year}"
+      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
       puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
       puts "\n"
-      puts "Follow the link for full synopsis.".colorize(:light_green)
+      puts "Follow the link for full synopsis.".colorize(:light_blue)
       puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
       puts "----------------------------------------------------------------------------"
     end
@@ -158,11 +160,11 @@ class TrueCrime::TrueCrimeController
     puts "TITLE CARD: #{selection}"
     puts "----------------------------------------------------------------------------"
     puts "#{documentary.title.upcase}".colorize(:red)
-    puts "Year:".colorize(:light_blue) + " #{documentary.year}".colorize(:light_green)
-    puts "Category:".colorize(:light_blue) + " #{documentary.category.name}".colorize(:light_green)
+    puts "Year:".colorize(:light_blue) + " #{documentary.year}"
+    puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
     puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
     puts "\n"
-    puts "Follow the link for full synopsis.".colorize(:light_green)
+    puts "Follow the link for full synopsis.".colorize(:light_blue)
     puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
     puts "----------------------------------------------------------------------------"
     puts "\n"
