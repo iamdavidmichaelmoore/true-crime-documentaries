@@ -1,4 +1,5 @@
 require 'colorize'
+require 'pry'
 
 class TrueCrime::TrueCrimeController
 
@@ -30,7 +31,7 @@ class TrueCrime::TrueCrimeController
   end
 
   def add_documentary_attributes
-      Documentary.create_documentary_from_collection(documentary_attributes)
+    Documentary.create_documentary_from_collection(documentary_attributes)
   end
 
   def welcome
@@ -42,10 +43,10 @@ class TrueCrime::TrueCrimeController
     puts "\n"
     puts "Welcome to the  True Crime Documentary Database!"
     puts "\n"
-    puts "One moment... Gathering information."
+    puts "One moment... Gathering collection."
     puts "\n"
     get_urls
-    puts "Building collection. This will take a while..."
+    puts "Building collection."
     get_documentary_attributes
     add_documentary_attributes
   end
@@ -53,28 +54,23 @@ class TrueCrime::TrueCrimeController
   def call
     puts "\n"
     puts "Enter a number for category. Type 'Quit' to end the program."
-    puts "You may need to scroll up to see your options/results."
     list_categories
     puts "Enter selection: \n"
     input = gets.strip.downcase
     while input != 'exit' do
       category = Category.all
-      documentary = Documentary.all
-      case
-      when input =='quit'.downcase
+      if input =='quit'
         puts "\n"
         puts "Thank you! Good-bye!"
         puts "\n"
         exit
-      when input == (category.count + 1).to_s
+      elsif input == (category.count + 1).to_s
         documentary_titles_menu
-        break
-      when category.include?(category[input.to_i - 1])
+      elsif input.to_i >= 1 && input.to_i < category.count
         list_documentaries_in_category(category[input.to_i - 1])
-        break
-      when category.include?(category[input.to_i - 1])
-        list_documentaries_in_category(category[input.to_i - 1])
-        break
+      elsif !(input.to_i >= 1 && input.to_i < category.count)
+        puts "***>>>Enter proper selection.<<<***".colorize(:red)
+        input = gets.strip.downcase
       else
         call
       end
@@ -87,18 +83,18 @@ class TrueCrime::TrueCrimeController
     input = gets.strip
     while input != 'exit' do
       documentary = Documentary.alphabetical
-      case
-      when input == 'quit'.downcase
+      if input == 'quit'.downcase
         puts "\n"
         puts "Thank you! Good-bye!"
         puts "\n"
         exit
-      when input == 'return'.downcase
+      elsif input == 'return'.downcase
         call
-        break
-      when documentary.include?(documentary[input.to_i - 1])
+      elsif input.to_i >= 1 && input.to_i < documentary.count
         display_documentary_info(documentary[input.to_i - 1], input.to_i)
-        break
+      elsif !(input.to_i >= 1 && input.to_i < documentary.count)
+        puts "***>>>Enter proper selection.<<<***".colorize(:red)
+        input = gets.strip.downcase
       else
         documentary_titles_menu
       end
