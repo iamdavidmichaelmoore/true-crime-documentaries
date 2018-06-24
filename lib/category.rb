@@ -47,6 +47,10 @@ class Category
     self.all.sort_by {|category| category.name}
   end
 
+  def documentaries_alphabetical
+    self.documentaries.sort_by {|documentary| documentary.title}
+  end
+
   def docs_count
     self.documentaries.count
   end
