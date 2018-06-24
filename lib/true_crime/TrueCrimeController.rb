@@ -3,7 +3,7 @@ require 'pry'
 
 class TrueCrime::TrueCrimeController
 
-  attr_reader :docs_urls, :documentary_attributes, :return_menu_category
+  attr_reader :docs_urls, :documentary_attributes
 
   INDEX_PAGE_URL = "http://crimedocumentary.com"
 
@@ -53,7 +53,7 @@ class TrueCrime::TrueCrimeController
 
   def call
     puts "\n"
-    puts "Enter a number for category. Type 'Quit' to end the program."
+    puts "Enter a number for category. Enter 'Quit' to end the program."
     list_categories
     puts "Enter selection: \n"
     input = gets.strip.downcase
@@ -66,10 +66,9 @@ class TrueCrime::TrueCrimeController
         exit
       elsif input == (category.count + 1).to_s
         documentary_titles_menu
-      elsif input.to_i >= 1 && input.to_i < category.count
-        # list_documentaries_with_details_in_category(category[input.to_i - 1])
-        list_documentaries_by_title_only_in_category_menu(category[input.to_i -1])
-      elsif !(input.to_i >= 1 && input.to_i < category.count)
+      elsif input.to_i >= 1 && input.to_i <= category.count
+        list_documentaries_by_title_only_in_category_menu(category[input.to_i - 1])
+      elsif !(input.to_i >= 1 && input.to_i <= category.count)
         puts "***>>>Enter proper selection.<<<***".colorize(:red)
         input = gets.strip.downcase
       else
@@ -78,10 +77,10 @@ class TrueCrime::TrueCrimeController
     end
   end
 
-  def documentary_titles_menu
+  def documentary_titles_menu(category=nil)
     list_documentaries
-    puts "Enter number for title. Type 'Return' for the main menu."
-    puts "Type 'Quit' to end the program."
+    puts "Enter number for title or 'Title' for previous category menu."
+    puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     input = gets.strip.downcase
     while input != 'exit' do
       documentary = Documentary.alphabetical
@@ -92,52 +91,35 @@ class TrueCrime::TrueCrimeController
         exit
       elsif input == 'return'
         call
-      elsif input.to_i >= 1 && input.to_i < documentary.count
-        display_documentary_info(documentary[input.to_i - 1], input.to_i)
-      elsif !(input.to_i >= 1 && input.to_i < documentary.count)
-        puts "***>>>Enter proper selection.<<<***".colorize(:red)
-        input = gets.strip.downcase
-      else
-        documentary_titles_menu
-      end
-    end
-  end
-
-  def return_menu
-    puts "Enter 'Title' for another selection or 'All Detail' to see all titles with detail."
-    puts "Type 'Return' for the main menu, or 'Quit' to end the program."
-    input = gets.strip.downcase
-    while input != 'exit' do
-      if input == 'quit'
-        puts "\n"
-        puts "Thank you! Good-bye!"
-        puts "\n"
-        exit
-      elsif input == 'return'
-        call
-      elsif input == 'all detail'
-        documentary_titles_menu
       elsif input == 'title'
-        list_documentaries_by_title_only_in_category_menu(return_menu_category)
-      else
+        if category.nil?
+          puts "You have not chosen a category yet.".colorize(:red)
+          input = gets.strip.downcase
+        else
+          list_documentaries_by_title_only_in_category_menu(category)
+        end
+      elsif input.to_i >= 1 && input.to_i <= documentary.count
+        display_documentary_info(documentary[input.to_i - 1], input.to_i)
+      elsif !(input.to_i >= 1 && input.to_i <= documentary.count)
         puts "***>>>Enter proper selection.<<<***".colorize(:red)
         input = gets.strip.downcase
+      else
+        documentary_titles_menu
       end
     end
   end
 
   def list_documentaries_by_title_only_in_category_menu(category)
-    return_menu_category = category
-    documentaries = category.documentaries_alphabetical
+    documentaries = category.documentaries.sort_by {|documentary| documentary.title}
     puts "-----------------------------------------------------------------------------"
-    puts "  True Crime Documentaries | #{documentaries.count} titles(s)"
+    puts "  #{category.name.upcase} | #{documentaries.count} titles(s)"
     puts "-----------------------------------------------------------------------------"
     documentaries.each.with_index(1) do |documentary, num|
-      puts "#{num}." + " #{documentary.title}".colorize(:red) + " = (#{docmentary.year}) - #{documentary.category.name}"
+      puts "#{num}." + " #{documentary.title}".colorize(:red) + " - (#{documentary.year}) - #{documentary.category.name}"
       puts "----------------------------------------------------------------------------"
     end
     puts "Enter number for title with detail or 'All Detail' to see all titles with detail."
-    puts "Type 'Return' for the main menu, or 'Quit' to end the program."
+    puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     puts "\n"
     input = gets.strip.downcase
     while input != 'exit' do
@@ -149,9 +131,33 @@ class TrueCrime::TrueCrimeController
       elsif input == 'return'
         call
       elsif input == 'all detail'
-        documentary_titles_menu
-      elsif input.to_i >= 1 && input.to_i < category.count
+        documentary_titles_menu(category)
+      elsif input.to_i >= 1 && input.to_i <= documentaries.count
         display_documentary_info(documentaries[input.to_i - 1], input.to_i)
+      else
+        puts "***>>>Enter proper selection.<<<***".colorize(:red)
+        input = gets.strip.downcase
+      end
+    end
+  end
+
+  def return_menu(category=nil)
+    puts "Enter 'Title' for this documentary's category menu."
+    puts "Enter 'All Detail' to see all titles with detail."
+    puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
+    input = gets.strip.downcase
+    while input != 'exit' do
+      if input == 'quit'
+        puts "\n"
+        puts "Thank you! Good-bye!"
+        puts "\n"
+        exit
+      elsif input == 'return'
+        call
+      elsif input == 'all detail'
+        documentary_titles_menu(category)
+      elsif input == 'title'
+        list_documentaries_by_title_only_in_category_menu(category)
       else
         puts "***>>>Enter proper selection.<<<***".colorize(:red)
         input = gets.strip.downcase
@@ -220,6 +226,6 @@ class TrueCrime::TrueCrimeController
     puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
     puts "----------------------------------------------------------------------------"
     puts "\n"
-    return_menu
+    return_menu(documentary.category)
   end
 end
