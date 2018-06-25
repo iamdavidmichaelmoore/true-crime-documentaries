@@ -150,12 +150,12 @@ class TrueCrime::TrueCrimeController
   end
 
   def return_menu(category=nil)
-    puts "Enter 'All' to return to documentary titles list."
     if category.nil?
       nil
     else
       puts "Enter 'Title' to go to the #{category.name} menu."
     end
+    puts "Enter 'All' to go to documentary titles list."
     puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     input = gets.strip.downcase
     while input != 'exit' do
