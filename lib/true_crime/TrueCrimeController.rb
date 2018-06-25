@@ -79,7 +79,12 @@ class TrueCrime::TrueCrimeController
 
   def documentary_titles_menu(category=nil)
     list_documentaries
-    puts "Enter number for title or 'Title' for previous category menu."
+    if category.nil?
+      puts "Enter number for title."
+    else
+      puts "Enter number for title or 'Title' to retrn to the #{category.name} menu."
+    end
+    puts "Enter 'All Detail' to see documentaries in all categories."
     puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     input = gets.strip.downcase
     while input != 'exit' do
@@ -98,6 +103,8 @@ class TrueCrime::TrueCrimeController
         else
           list_documentaries_by_title_only_in_category_menu(category)
         end
+      elsif input == 'all detail'
+        all_documentaries_with_details(category)
       elsif input.to_i >= 1 && input.to_i <= documentary.count
         display_documentary_info(documentary[input.to_i - 1], input.to_i)
       elsif !(input.to_i >= 1 && input.to_i <= documentary.count)
@@ -118,7 +125,8 @@ class TrueCrime::TrueCrimeController
       puts "#{num}." + " #{documentary.title}".colorize(:red) + " - (#{documentary.year}) - #{documentary.category.name}"
       puts "----------------------------------------------------------------------------"
     end
-    puts "Enter number for title with detail or 'All Detail' to see all titles with detail."
+    puts "Enter number for title with detail."
+    puts "Enter 'All Detail' to see all #{category.name} titles with detail."
     puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     puts "\n"
     input = gets.strip.downcase
@@ -131,7 +139,7 @@ class TrueCrime::TrueCrimeController
       elsif input == 'return'
         call
       elsif input == 'all detail'
-        documentary_titles_menu(category)
+        list_all_documentaries_with_details_in_category(category)
       elsif input.to_i >= 1 && input.to_i <= documentaries.count
         display_documentary_info(documentaries[input.to_i - 1], input.to_i)
       else
@@ -142,8 +150,12 @@ class TrueCrime::TrueCrimeController
   end
 
   def return_menu(category=nil)
-    puts "Enter 'Title' for this documentary's category menu."
-    puts "Enter 'All Detail' to see all titles with detail."
+    puts "Enter 'All' to return to documentary titles list."
+    if category.nil?
+      nil
+    else
+      puts "Enter 'Title' to go to the #{category.name} menu."
+    end
     puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     input = gets.strip.downcase
     while input != 'exit' do
@@ -154,7 +166,7 @@ class TrueCrime::TrueCrimeController
         exit
       elsif input == 'return'
         call
-      elsif input == 'all detail'
+      elsif input == 'all'
         documentary_titles_menu(category)
       elsif input == 'title'
         list_documentaries_by_title_only_in_category_menu(category)
@@ -190,7 +202,8 @@ class TrueCrime::TrueCrimeController
     puts "\n"
   end
 
-  def list_documentaries_with_details_in_category(category)
+
+  def list_all_documentaries_with_details_in_category(category=nil)
     count = "#{category.name.upcase} | #{category.docs_count} title(s)"
     puts "\n"
     puts "-----------------------------------------------------------------------------"
@@ -209,7 +222,28 @@ class TrueCrime::TrueCrimeController
     end
     puts "#{count}" + "     |     END OF LIST"
     puts "------------------------------------------------------------------------------"
-    call
+    return_menu(category)
+  end
+
+  def all_documentaries_with_details(category=nil)
+    documentaries = Documentary.alphabetical
+    count = " #{documentaries.count} title(s)"
+    puts "-----------------------------------------------------------------------------"
+    puts "  True Crime Documentaries | #{documentaries.count} title(s)"
+    puts "-----------------------------------------------------------------------------"
+    documentaries.each.with_index(1) do |documentary, num|
+      puts "#{num}." + " #{documentary.title.upcase}".colorize(:red)
+      puts "Year:".colorize(:light_blue) + " #{documentary.year}"
+      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
+      puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
+      puts "\n"
+      puts "Follow the link for full synopsis.".colorize(:light_blue)
+      puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
+      puts "----------------------------------------------------------------------------"
+    end
+    puts "#{count}" + "     |     END OF LIST"
+    puts "------------------------------------------------------------------------------"
+    return_menu(category)
   end
 
   def display_documentary_info(documentary, selection)
