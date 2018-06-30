@@ -115,7 +115,7 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_documentaries_by_title_only_in_category_menu(category)
-    documentaries = category.documentaries.sort_by {|documentary| documentary.title}
+    documentaries = category.sort_documentaries
     puts "-----------------------------------------------------------------------------"
     puts "  #{category.name.upcase} | #{documentaries.count} titles(s)"
     puts "-----------------------------------------------------------------------------"
