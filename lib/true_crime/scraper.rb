@@ -1,4 +1,4 @@
-require_relative "./true_crime"
+require_relative "../true_crime"
 require 'open-uri'
 
 
