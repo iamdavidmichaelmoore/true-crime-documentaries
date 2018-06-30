@@ -85,7 +85,7 @@ class TrueCrime::TrueCrimeController
     puts "Enter 'All Detail' to see documentaries in all categories."
     puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
     input = gets.strip.downcase
-    while input != 'exit' do
+    while input != 'quit' do
       documentary = Documentary.alphabetical
       if input == 'quit'
         puts "\n"
