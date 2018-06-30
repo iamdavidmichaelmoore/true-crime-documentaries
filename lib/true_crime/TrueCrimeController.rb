@@ -57,22 +57,20 @@ class TrueCrime::TrueCrimeController
     list_categories
     puts "Enter selection: \n"
     input = gets.strip.downcase
-    while input != 'exit' do
-      category = Category.alphabetical
+    while input != 'quit' do
+      categories = Category.alphabetical
       if input =='quit'
         puts "\n"
         puts "Thank you! Good-bye!"
         puts "\n"
         exit
-      elsif input == (category.count + 1).to_s
+      elsif input == (categories.count + 1).to_s
         documentary_titles_menu
-      elsif input.to_i >= 1 && input.to_i <= category.count
-        list_documentaries_by_title_only_in_category_menu(category[input.to_i - 1])
-      elsif !(input.to_i >= 1 && input.to_i <= category.count)
+      elsif input.to_i >= 1 && input.to_i <= categories.count
+        list_documentaries_by_title_only_in_category_menu(categories[input.to_i - 1])
+      else
         puts "***>>>Enter proper selection.<<<***".colorize(:red)
         input = gets.strip.downcase
-      else
-        call
       end
     end
   end
