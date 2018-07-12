@@ -1,15 +1,16 @@
 require 'colorize'
 require 'pry'
 
-class TrueCrime::TrueCrimeController
+class TrueCrime::NewTrueCrimeController
 
-  attr_reader :docs_urls, :documentary_attributes, :input
+  attr_reader :docs_urls, :documentary_attributes, :input, :display_method_symbol, :method_hash, :previous_method
 
   INDEX_PAGE_URL = "http://crimedocumentary.com"
 
   def initialize
     @docs_urls = []
     @documentary_attributes = []
+    @method_hash = {}
   end
 
   def run
@@ -58,7 +59,6 @@ class TrueCrime::TrueCrimeController
       puts "\n"
       puts "Enter a number for category. Enter 'Quit' to end the program."
       list_categories
-      puts "Enter selection: \n"
       @input = gets.strip.downcase
       categories = Category.alphabetical
       if @input == (categories.count + 1).to_s
@@ -68,7 +68,7 @@ class TrueCrime::TrueCrimeController
       elsif @input == 'quit'
         break
       else
-        valid_entry?
+        invalid_entry!
       end
     end
   end
@@ -83,21 +83,20 @@ class TrueCrime::TrueCrimeController
   end
 
   def documentary_titles_menu
-    while @input != 'quit' do
+    @previous_method = __method__
+    while @input != 'main' do
       list_documentaries
       puts "Enter number for title."
       puts "Enter 'All Detail' to see documentaries in all categories."
-      puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
+      puts "Enter 'Main' for the main menu."
       @input = gets.strip.downcase
       documentary = Documentary.alphabetical
-      if @input == 'return' || @input == 'quit'
+      if @input == 'return' || @input == 'main'
         break
       elsif @input == 'all detail'
         all_documentary_titles_with_details_menu
       elsif @input.to_i >= 1 && @input.to_i <= documentary.count
-        display_documentary_info(documentary[@input.to_i - 1], @input.to_i)
-        puts "Make another selection."
-        puts "Enter 'Return' to return to the main menu."
+        display_documentary_info(documentary[@input.to_i - 1], @input.to_i, @previous_method)
       else
         invalid_entry!
       end
@@ -105,12 +104,11 @@ class TrueCrime::TrueCrimeController
   end
 
   def all_documentary_titles_with_details_menu
-    while @input != 'quit' do
+    while @input != 'main' do
       all_documentaries_with_details
-      puts "Enter 'Titles' to return to the titles list."
-      puts "Enter 'Quit' to end the program."
+      puts "Enter 'Return' to return to the titles list or 'Main' for the main menu."
       @input = gets.strip.downcase
-      if @input == 'Titles'  || @input == 'quit'
+      if @input == 'return'  || @input == 'main'
         break
       else
         invalid_entry!
@@ -119,7 +117,8 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_documentaries_by_title_only_in_category_menu(category)
-    while @input != 'quit' do
+    @previous_method = __method__
+    while @input != 'main' do
       documentaries = category.sort_documentaries
       puts "-----------------------------------------------------------------------------"
       puts "  #{category.name.upcase} | #{documentaries.count} titles(s)"
@@ -129,18 +128,17 @@ class TrueCrime::TrueCrimeController
         puts "----------------------------------------------------------------------------"
       end
       puts "Enter number for title with detail."
-      puts "Enter 'all detail' to see all #{category.name} titles with detail."
-      puts "Enter 'Return' for the main menu, or 'Quit' to end the program."
+      puts "Enter 'All Detail' to see all #{category.name} titles with detail."
+      puts "Enter 'Return' to return to the previous menu or 'Main' for the main menu."
       puts "\n"
       @input = gets.strip.downcase
-      if @input == 'return' || @input == 'quit'
+      if @input == 'return' || @input == 'main'
+        @previous_method = nil
         break
       elsif @input == 'all detail'
         list_all_documentaries_with_details_in_category_menu(category)
       elsif @input.to_i >= 1 && @input.to_i <= documentaries.count
-        display_documentary_info(documentaries[@input.to_i - 1], @input.to_i)
-        puts "Make another selection."
-        puts "Enter 'Return' to return to the main menu."
+        display_documentary_info(documentaries[@input.to_i - 1], @input.to_i, @previous_method)
       else
         invalid_entry!
       end
@@ -148,12 +146,12 @@ class TrueCrime::TrueCrimeController
   end
 
   def list_all_documentaries_with_details_in_category_menu(category)
-    while @input !='quit' do
+    while @input != 'main' do
       list_all_documentaries_with_details_in_category(category)
-      puts "Enter 'Category' to return to the category titles list."
-      puts "Enter 'Quit' to end the program."
+      puts "Enter 'Return' to return to the previous menu."
+      puts "Enter 'Main' for the main menu."
       @input = gets.strip.downcase
-      if @input == 'category' || @input == 'quit'
+      if @input == 'return' || @input == 'main'
         break
       else
         invalid_entry!
@@ -227,19 +225,46 @@ class TrueCrime::TrueCrimeController
     puts "------------------------------------------------------------------------------"
   end
 
-  def display_documentary_info(documentary, selection)
-    puts "\n"
-    puts "----------------------------------------------------------------------------"
-    puts "TITLE CARD: #{selection}"
-    puts "----------------------------------------------------------------------------"
-    puts "#{documentary.title.upcase}".colorize(:red)
-    puts "Year:".colorize(:light_blue) + " #{documentary.year}"
-    puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
-    puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
-    puts "\n"
-    puts "Follow the link for full synopsis.".colorize(:light_blue)
-    puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
-    puts "----------------------------------------------------------------------------"
-    puts "\n"
+  def display_documentary_info(documentary, selection, previous_method=nil)
+    while @input != 'main' do
+      puts "\n"
+      puts "----------------------------------------------------------------------------"
+      puts "TITLE CARD: #{selection}"
+      puts "----------------------------------------------------------------------------"
+      puts "#{documentary.title.upcase}".colorize(:red)
+      puts "Year:".colorize(:light_blue) + " #{documentary.year}"
+      puts "Category:".colorize(:light_blue) + " #{documentary.category.name}"
+      puts "Synopsis:".colorize(:light_blue) + " #{documentary.synopsis}"
+      puts "\n"
+      puts "Follow the link for full synopsis.".colorize(:light_blue)
+      puts "Full synopsis URL:".colorize(:light_blue) + " #{documentary.synopsis_url}"
+      puts "----------------------------------------------------------------------------"
+      puts "\n"
+      if count_call == 2 || @previous_method == :list_documentaries_by_title_only_in_category_menu
+        puts "Enter 'Return' to return to the previous menu or 'Main' for the main menu."
+      else
+        puts "Enter 'Category' to see more titles in the #{documentary.category.name} category."
+        puts "Enter 'Return' to return to the previous menu or 'Main' for the main menu."
+        count_call
+      end
+      @input = gets.strip.downcase
+      if @input == 'return' || @input == 'main'
+        @method_hash[@display_method_symbol] = 0
+        break
+      elsif @input == 'category'
+        list_documentaries_by_title_only_in_category_menu(documentary.category)
+      else
+        invalid_entry!
+      end
+    end
+  end
+
+  def count_call
+    if method_hash[display_method_symbol].nil?
+      method_hash[display_method_symbol] = 1
+    elsif method_hash[display_method_symbol] < 2
+      method_hash[display_method_symbol] += 1
+    end
+    method_hash[display_method_symbol]
   end
 end
