@@ -2,4 +2,4 @@
 
 require_relative '../lib/true_crime'
 
-TrueCrime::TrueCrimeController.new.run
+TrueCrime::NewTrueCrimeController.new.run
